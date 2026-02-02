@@ -12,14 +12,17 @@ final class DataGenerateCommand
     use HasConsole;
 
     #[ConsoleCommand(middleware: [ForceMiddleware::class])]
-    public function __invoke(int|string $iterations = 1_000_000, string $outputPath = __DIR__ . '/../data.csv'): void
+    public function __invoke(
+        int|string $iterations = 1_000_000,
+        string $outputPath = __DIR__ . '/../data/data.csv',
+    ): void
     {
         $iterations = parse_int(str_replace([',', '_'], '', $iterations));
 
         if (! $this->confirm(sprintf(
             "Generating data for %s iterations in %s. Continue?",
             number_format($iterations),
-            $outputPath
+            $outputPath,
         ), default: true)) {
             $this->error('Cancelled');
             return;
@@ -34,7 +37,7 @@ final class DataGenerateCommand
         while ($i < $iterations) {
             $visit = $visits[array_rand($visits)];
 
-            fwrite($handle, $visit->uri . ';' . $visit->generateDate()  . PHP_EOL);
+            fwrite($handle, $visit->uri . ';' . $visit->generateDate() . PHP_EOL);
 
             $i++;
 

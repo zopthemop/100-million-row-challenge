@@ -1,6 +1,6 @@
 vendor/
-data.csv
-data.json
+data/data.csv
+data/data.json
 test-data-actual.json
 .idea
 .tempest

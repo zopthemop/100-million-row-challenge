@@ -12,8 +12,8 @@ final class DataParseCommand
 
     #[ConsoleCommand]
     public function __invoke(
-        string $inputPath = __DIR__ . '/../data.csv',
-        string $outputPath = __DIR__ . '/../data.json',
+        string $inputPath = __DIR__ . '/../data/data.csv',
+        string $outputPath = __DIR__ . '/../data/data.json',
     ): void {
         $startTime = microtime(true);
 
