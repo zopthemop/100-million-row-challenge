@@ -418,6 +418,10 @@ final class BenchmarkRunCommand
                     "You shaved off time so clean it should be in a barbershop. 💈",
                     "Leaderboard be like _cheff's kiss_ 🤌",
                     "Mean time goes down, confidence goes up",
+                    "Local maximum? Never heard of her. 📉",
+                    "You just made the CPU do less cardio. 🫀",
+                    "Mean time decreased. We love a humble average. 🙇",
+                    "You didn’t optimize. You *performed violence* (on latency). 🔪",
                 ];
 
                 $this->githubComment($prNumber, $messages[array_rand($messages)]);
