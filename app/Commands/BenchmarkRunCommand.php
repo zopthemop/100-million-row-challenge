@@ -424,7 +424,9 @@ final class BenchmarkRunCommand
         // Commit and push the leaderboard
         $repoDir = __DIR__ . '/../..';
 
-        exec("cd " . escapeshellarg($repoDir) . " && git pull origin main && git add leaderboard.csv", $output, $returnCode);
+        $gitCommand = "cd " . escapeshellarg($repoDir) . " && git pull origin main && git add leaderboard.csv";
+        $this->prLine($prNumber, $gitCommand);
+        exec($gitCommand, $output, $returnCode);
 
         if ($returnCode !== 0) {
             $this->prWarning($prNumber, "Leaderboard not updated");
