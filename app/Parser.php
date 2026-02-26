@@ -19,7 +19,7 @@ final class Parser {
 			$start = $i * $part;
 			$endHint = ($i === $workers - 1) ? PHP_INT_MAX : ($i + 1) * $part;
 			$ranges[$i] = [$start, $endHint];
-			$tmpFiles[$i] = $tmpDir . 'partial_' . $i;
+			$tmpFiles[$i] = $tmpDir . '/partial_' . $i;
 		}
 
 		// Fork children
@@ -47,7 +47,7 @@ final class Parser {
 				$remaining--;
 				if (!pcntl_wifexited($status) || pcntl_wexitstatus($status) !== 0) {
 					$idx = $pids[$pid] ?? null;
-					throw new RuntimeException("worker " . ($idx ?? '?') . " exited abnormally (pid=$pid, status=$status)");
+					throw new \RuntimeException("worker " . ($idx ?? '?') . " exited abnormally (pid=$pid, status=$status)");
 				}
 			}
 		}
@@ -59,7 +59,7 @@ final class Parser {
 			if ($content === false) {
 				// Clean up any temp files we created before throwing
 				for ($j = 0; $j <= $i; $j++) { @unlink($tmpFiles[$j]); }
-				throw new RuntimeException("failed to read partial file: " . $tmpFiles[$i]);
+				throw new \RuntimeException("failed to read partial file: " . $tmpFiles[$i]);
 			}
 			$partial = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 			foreach ($partial as $k => $v) {
@@ -83,7 +83,7 @@ final class Parser {
 
 	function worker_process(string $path, int $start, int $endHint, int $bufSize): array {
 		$fh = fopen($path, 'rb');
-		if (!$fh) throw new RuntimeException("open failed: $path");
+		if (!$fh) throw new \RuntimeException("open failed: $path");
 
 		if ($start > 0) {
 			fseek($fh, $start);
