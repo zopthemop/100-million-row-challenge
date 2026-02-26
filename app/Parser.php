@@ -17,7 +17,7 @@ final class Parser {
 		$tmpFiles = [];
 		for ($i = 0; $i < $workers; $i++) {
 			$start = $i * $part;
-			$endHint = ($i === $workers - 1) ? $size : ($i + 1) * $part;
+			$endHint = ($i === $workers - 1) ? PHP_INT_MAX : ($i + 1) * $part;
 			$ranges[$i] = [$start, $endHint];
 			$tmpFiles[$i] = $tmpDir . 'partial_' . $i;
 		}
