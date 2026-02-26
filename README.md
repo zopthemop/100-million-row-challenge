@@ -156,4 +156,4 @@ The point of this challenge is to push PHP to its limits. That's why you're not 
 
 #### How long should I wait for benchmark results to come in?
 
-We manually verify each submission before running it on the benchmark sever. Depending on our availability, this means possible waiting times. If we haven't gotten to your submission within 24 hours, feel free to ping @brendt or @xHeaven in a comment to make sure we don't forget you.
+We manually verify each submission before running it on the benchmark sever. Depending on our availability, this means possible waiting times. You can mark your PR as ready for a run by adding a comment saying `/bench`.
