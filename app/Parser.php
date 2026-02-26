@@ -3,6 +3,7 @@
 namespace App;
 
 final class Parser {
+
 	public function parse(string $inputPath, string $outputPath): void {
 		$workers = 4;
 		// We can reasonably guess the file size without doing IO
@@ -112,7 +113,7 @@ final class Parser {
 
 			$pos = 0;
 			while (($nl = strpos($blk, "\n", $pos)) !== false) {
-				$k  = substr($blk, $pos + 19, $nl - $pos - 35);
+				$k  = substr($blk, $pos + 19, $nl - $pos - 34);
 				$stats[$k] = 1 + ($stats[$k] ?? 0);
 				$pos = $nl + 1;
 			}
