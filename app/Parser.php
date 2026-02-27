@@ -31,18 +31,20 @@ final class Parser {
 			}
 		}
 
-		$workers = 9;
+		$workers = 8;
 		// We can reasonably guess the file size without doing IO
 		$size = 7_595_602_700;
 
 		$bufSize = 1024 * 1024; // 1 MiB
-		$part = intdiv($size, $workers);
 
+		// try weighted workers
 		// Precompute ranges, temp files
+		$weights = [0.15, 0.15, 0.15, 0.15, 0.1, 0.1, 0.1, 0.1];
 		$ranges = [];
 		$tmpDir = sys_get_temp_dir();
 		$tmpFiles = [];
 		for ($i = 0; $i < $workers; $i++) {
+			$part = (int) ($size * $weights[$i]);
 			$start = $i * $part;
 			$endHint = ($i === $workers - 1) ? PHP_INT_MAX : ($i + 1) * $part;
 			$ranges[$i] = [$start, $endHint];
@@ -54,6 +56,10 @@ final class Parser {
 		for ($i = 0; $i < $workers; $i++) {
 			$pid = pcntl_fork();
 			if ($pid === 0) {
+				// let weak workers have lower prio
+				if ($i > 4) {
+					pcntl_setpriority(10);
+				}
 				// Child
 				[$start, $endHint] = $ranges[$i];
 				$this->worker_process($inputPath, $start, $endHint, $bufSize, $stats);
