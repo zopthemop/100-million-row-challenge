@@ -43,11 +43,14 @@ final class Parser {
 		$ranges = [];
 		$tmpDir = sys_get_temp_dir();
 		$tmpFiles = [];
+		$start = 0;
+		$endHint = 0;
 		for ($i = 0; $i < $workers; $i++) {
 			$part = (int) ($size * $weights[$i]);
-			$start = $i * $part;
-			$endHint = ($i === $workers - 1) ? PHP_INT_MAX : ($i + 1) * $part;
-			$ranges[$i] = [$start, $endHint];
+			$endHint += $part;
+			$ranges[$i] = [$start, ($i === $workers - 1) ? PHP_INT_MAX : $endHint];
+			$start += $part;
+
 			$tmpFiles[$i] = $tmpDir . '/partial_' . $i;
 		}
 
